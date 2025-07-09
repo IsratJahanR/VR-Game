@@ -4,7 +4,7 @@
 
 int main()
 {
-    // Initilize window
+    // Initilize window size 
     const int width{512};
     const int height{380};
     InitWindow(width,height,"Dapper Dasher!");
@@ -20,6 +20,9 @@ int main()
 
     //is the rectangle in air????
     bool isInAir{};
+
+    //jump velocity
+    const int jumpVel{-22};
 
 
 
@@ -50,7 +53,7 @@ int main()
 
         if(IsKeyPressed(KEY_SPACE) && !isInAir)
         {
-            velocity-=10;
+            velocity +=jumpVel;
         }
 
         
