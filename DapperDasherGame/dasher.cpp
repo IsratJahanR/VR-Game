@@ -1,54 +1,125 @@
 #include "raylib.h"
 #include<stdio.h>
 
+struct Anim
+{
+    Rectangle rec;
+    Vector2 pos;
+    int frame;
+    float updateTime;
+    float runningTime;
+};
+bool isOnGround(Anim data, int windowHeight)
+{
+    return data.pos.y>=windowHeight-data.rec.height;
+}
+
+Anim updateAnim(Anim Data, float deltaTIme, int maxFrame)
+{
+     Data.runningTime+=deltaTIme;
+     if(Data.runningTime>=Data.updateTime)
+     {
+        Data.runningTime = 0.0;
+        Data.rec.x = Data.frame*Data.rec.width;
+        Data.frame++;
+        Data.frame%=maxFrame;
+                
+    }
+    return Data;
+}
 
 int main()
 {
     // Initilize window size 
-    const int width{512};
-    const int height{380};
-    InitWindow(width,height,"Dapper Dasher!");
+    int windowDim[2] = {512, 380};
+   
+    InitWindow(windowDim[0],windowDim[1],"Dapper Dasher!");
 
+    //Nebula Texture
+    Texture2D nebula = LoadTexture("textures/12_nebula_spritesheet.png");
+    int nebulaeSize = 5;
+    Anim nebulae[nebulaeSize]{};
+    for(int i=0;i<nebulaeSize;i++)
+    {
+        //nebulae[i].rec{0.0, 0.0, nebula.width/8, nebula.height/8};
+        nebulae[i].rec.x = 0.0; nebulae[i].rec.y = 0.0; nebulae[i].rec.width = nebula.width/8; nebulae[i].rec.height = nebula.height/8;
+        //nebulae[i].pos{windowDim[0]+i*200,windowDim[1]-nebula.height/8};
+        nebulae[i].pos.x = windowDim[0]+i*200;  nebulae[i].pos.y = windowDim[1]-nebula.height/8;
+        nebulae[i].frame=0;
+        nebulae[i].updateTime=1.0/16.0;
+        nebulae[i].runningTime=0.0;
+    }
 
+    float finishLine{nebulae[nebulaeSize-1].pos.x + };
+    //Scarfy Texture
     Texture2D scarfy = LoadTexture("textures/scarfy.png");
-    Rectangle scarfyRec;
-    
-    scarfyRec.width = scarfy.width/6;
-    scarfyRec.height = scarfy.height;
-    scarfyRec.x = 0;
-    scarfyRec.y = 0;
-
-    Vector2 scarfyPos;
-    scarfyPos.x = width/2 - scarfyRec.width;
-    scarfyPos.y = height/2 - scarfyRec.height;
-
-    
-    //Rectangle Dimension
+    Anim scarfyData{
+        {0.0, 0.0, scarfy.width/6, scarfy.height}, //Rectangle rec
+        {windowDim[0]/2 - scarfy.width/6,windowDim[1]/2 - scarfy.height}, // Vector2 pos
+        0, // int frame
+        1.0/12.0, // float updateTime
+        0 // float runningTime
+    };
+    int nebVel{-200};
     int velocity{0};
-
-    //acceleration due to gravity (pixels/frame)/frame
-    const int gravity{1};
+    //acceleration due to gravity (pixels/s)/s
+    const int gravity{1'000};
 
     //is the rectangle in air????
     bool isInAir{};
 
-    //jump velocity
-    const int jumpVel{-22};
+    //jump velocity (pixel/s)
+    const int jumpVel{-600};
 
 
+    Texture background = LoadTexture("textures/far-buildings.png");
+    float bgX{};
 
-
+    Texture midground = LoadTexture("textures/back-buildings.png");
+    float mgX{};
+    Texture foreground = LoadTexture("textures/foreground.png");
+    float fgX{};
 
     SetTargetFPS(50);
 
     while(!WindowShouldClose())
     {
+        // delta time (time since last frame)
+        const float dT{GetFrameTime()};
         //Start Drawing
         BeginDrawing();
         ClearBackground(WHITE);
+ 
+        bgX -=20*dT;
+        if(bgX <= -background.width*2)bgX = 0.0;
+
+        mgX -= 40*dT;
+        if(mgX <= -midground.width*2)mgX = 0.0;
+
+        fgX -= 80*dT;
+        if(fgX <= -foreground.width*2)fgX = 0.0; 
+
+        //Set Background 
+        Vector2 bgPos{bgX,0.0};
+        DrawTextureEx(background,bgPos, 0.0, 2.0, WHITE);
+        Vector2 bg1Pos{bgX+background.width*2,0.0};
+        DrawTextureEx(background,bg1Pos, 0.0, 2.0, WHITE);
+
+        Vector2 mgPos{mgX,0.0};
+        DrawTextureEx(midground,mgPos, 0.0, 2.0, WHITE);
+        Vector2 mg1Pos{mgX+midground.width*2,0.0};
+        DrawTextureEx(midground,mg1Pos, 0.0, 2.0, WHITE);
+
+        Vector2 fgPos{fgX,0.0};
+        DrawTextureEx(foreground,fgPos, 0.0, 2.0, WHITE);
+        Vector2 fg1Pos{fgX+foreground.width*2,0.0};
+        DrawTextureEx(foreground,fg1Pos, 0.0, 2.0, WHITE);
+
+
+
 
         //perform ground check
-        if(scarfyPos.y>=height-scarfyRec.height)
+        if(isOnGround(scarfyData,windowDim[1]))
         {
             //rectangle is on the ground
             velocity = 0;
@@ -56,9 +127,8 @@ int main()
         } 
         else 
         {
-            //rectangle is on the air
-            //apply gravity
-            velocity +=gravity;
+            //rectangle is on the air  //apply gravity
+            velocity +=gravity*dT;
             isInAir = true;
         }
 
@@ -67,18 +137,54 @@ int main()
         {
             velocity +=jumpVel;
         }
+        //Update nebula Position
+        for(int i = 0;i<nebulaeSize;i++)
+        {
+            nebulae[i].pos.x +=nebVel*dT;
+        }
+        finishLine += nebVel*dT;
 
+        //Update scarfy position
+        scarfyData.pos.y +=velocity*dT;
+
+        //Update scarfy animation
+        if(!isInAir){
+           scarfyData = updateAnim(scarfyData, dT, 5);   
+        }
+
+        //Update nebula animation frame
+        for(int i = 0;i<nebulaeSize;i++)
+        {
+            nebulae[i] = updateAnim(nebulae[i], dT, 8);
+        }
+
+        // bool collision{false};
+        // for(Anim nebula : nebulae)
+        // {
+        //     Rectangle nebRec{
+        //         nebula.pos.x,
+        //         nebula.pos.y,
+        //         nebula.rec.width,
+        //         nebula.rec.height
+        //     };
+        // }
+
+        //Draw nabula
+        for(int i = 0;i<nebulaeSize; i++)
+        {
+             DrawTextureRec(nebula, nebulae[i].rec, nebulae[i].pos, BLUE);
+        }
         
-
-        //Update position
-        scarfyPos.y +=velocity;
-
-
-        DrawTextureRec(scarfy, scarfyRec, scarfyPos, RED);
+        //Draw scarfy
+        DrawTextureRec(scarfy, scarfyData.rec, scarfyData.pos, WHITE);
 
         //Stop Drawing
         EndDrawing();
     }
     UnloadTexture(scarfy);
+    UnloadTexture(nebula);
+    UnloadTexture(background);
+    UnloadTexture(midground);
+    UnloadTexture(midground);
     CloseWindow();
 }
