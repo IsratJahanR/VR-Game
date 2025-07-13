@@ -33,8 +33,8 @@ int main()
 
         if(Vector2Length(direction)!=0.0)
         {
-            Vector2Normalize(direction);
-            map
+            // set mapPos = mapPos - direction
+            mapPos = Vector2Subtract(mapPos,Vector2Normalize(direction));
 
         }
 
