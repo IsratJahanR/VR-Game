@@ -17,6 +17,7 @@ Vector2 Character :: getScreenPos()
 }
 void Character::tick(float deltaTime)
 {
+    if(!getAlive())return;
     if (IsKeyDown(KEY_A))
         velocity.x -= 1.0;
     if (IsKeyDown(KEY_D))
@@ -39,7 +40,7 @@ void Character::tick(float deltaTime)
             weapon.width*scale,
             weapon.height*scale
         };
-        rotation = 35.f;
+         rotation = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? 35.f : 0;
     }
     else {
         origin = {weapon.width*scale, weapon.height*scale};
@@ -50,7 +51,7 @@ void Character::tick(float deltaTime)
             weapon.width*scale,
             weapon.height*scale
         };
-        rotation = -35.f;
+        rotation = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? -35.f : 0;
     }
 
     //draw the Sward
@@ -58,12 +59,15 @@ void Character::tick(float deltaTime)
     Rectangle dst{getScreenPos().x + offset.x, getScreenPos().y + offset.y, weapon.width*scale,weapon.height*scale};
     DrawTexturePro(weapon, source, dst,origin,rotation,WHITE);
 
-    DrawRectangleLines(
-        weaponCollisionRec.x, 
-        weaponCollisionRec.y,
-        weaponCollisionRec.width,
-        weaponCollisionRec.height, 
-        RED
-    );
+  
    
+}
+void Character::takeDamage(float damage)
+{
+    health -=damage;
+    if(health <= 0.f)
+    {
+        setAlive(false);
+    }
+
 }
