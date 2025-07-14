@@ -9,8 +9,8 @@
 int main()
 {
     // Initilize window size
-    const int winWidth{384};
-    const int winHeight{384};
+    const int winWidth{720};
+    const int winHeight{720};
     InitWindow(winWidth, winHeight, "Stephen's Top Down!");
 
     // Draw map
