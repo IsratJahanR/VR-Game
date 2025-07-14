@@ -1,41 +1,52 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Linker files
-*.ilk
-
-# Debugger Files
+# Binary files and build artifacts
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+*.VC.db
+*.sdf
+*.opensdf
+*.log
+*.tlog
 *.pdb
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
+*.ipch
+*.obj
 *.exe
-*.out
+*.dll
 *.app
+*.dylib
+*.icns
+*.target
 
-# debug information files
-*.dwo
+# Project user-specific settings
+.vscode/
+.vs/
+*.suo
+*.user
+*.userprefs
+*.aps
+*.ncb
+
+# Build configuration files
+Build/
+.vscode/
+*.xcodeproj
+*.xcworkspace
+.idea/
+
+# Ignore autosave and backup files
+*.autosave
+*_Backup*
+*.tmp
+*.bak
+
+# Ignore telemetry or crash reports
+CrashReportClient/
+Telemetry/
+
+# Ignore compiled shaders
+ShaderCache/
+Saved/ShaderDebugInfo/
+
+# Ignore Unreal-generated files
+*.generated.*
