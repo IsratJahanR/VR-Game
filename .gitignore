@@ -1,38 +1,39 @@
+# ------------------------------------------------------
+# Unreal Engine Git Ignore Template (Cleaned + Updated)
+# ------------------------------------------------------
+
 # Binary files and build artifacts
 Binaries/
 DerivedDataCache/
 Intermediate/
 Saved/
-*.VC.db
-*.sdf
-*.opensdf
-*.log
-*.tlog
-*.pdb
-*.ipch
-*.obj
-*.exe
-*.dll
-*.app
-*.dylib
-*.icns
-*.target
+Build/
 
-# Project user-specific settings
-.vscode/
+# Ignore project user-specific settings
 .vs/
+.vscode/
+.idea/
 *.suo
 *.user
 *.userprefs
 *.aps
 *.ncb
+*.VC.db
+*.sdf
+*.opensdf
+*.tlog
+*.pdb
+*.ipch
+*.obj
 
-# Build configuration files
-Build/
-.vscode/
-*.xcodeproj
-*.xcworkspace
-.idea/
+# Ignore compiled binaries and targets
+*.exe
+*.dll
+*.lib
+*.app
+*.dylib
+*.icns
+*.target
 
 # Ignore autosave and backup files
 *.autosave
@@ -40,7 +41,7 @@ Build/
 *.tmp
 *.bak
 
-# Ignore telemetry or crash reports
+# Ignore crash reports and telemetry
 CrashReportClient/
 Telemetry/
 
@@ -48,5 +49,13 @@ Telemetry/
 ShaderCache/
 Saved/ShaderDebugInfo/
 
-# Ignore Unreal-generated files
+# Ignore generated files
 *.generated.*
+
+# Ignore Xcode files (if cross-platform or using Mac)
+*.xcodeproj
+*.xcworkspace
+
+# Ignore OS-specific
+.DS_Store
+Thumbs.db
