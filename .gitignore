@@ -1,57 +1,23 @@
-<<<<<<< HEAD
-# ------------------------------------------------------
-# Unreal Engine Git Ignore Template (Cleaned + Updated)
-# ------------------------------------------------------
-
-=======
->>>>>>> 1d7ce6ce7a9b1c12265cbb79e62c71a8e54e8ea4
 # Binary files and build artifacts
 Binaries/
 DerivedDataCache/
 Intermediate/
 Saved/
-<<<<<<< HEAD
-Build/
-
-# Ignore project user-specific settings
-.vs/
-.vscode/
-.idea/
-*.suo
-*.user
-*.userprefs
-*.aps
-*.ncb
-*.VC.db
-*.sdf
-*.opensdf
-=======
 *.VC.db
 *.sdf
 *.opensdf
 *.log
->>>>>>> 1d7ce6ce7a9b1c12265cbb79e62c71a8e54e8ea4
 *.tlog
 *.pdb
 *.ipch
 *.obj
-<<<<<<< HEAD
-
-# Ignore compiled binaries and targets
 *.exe
 *.dll
-*.lib
-=======
-*.exe
-*.dll
->>>>>>> 1d7ce6ce7a9b1c12265cbb79e62c71a8e54e8ea4
 *.app
 *.dylib
 *.icns
 *.target
 
-<<<<<<< HEAD
-=======
 # Project user-specific settings
 .vscode/
 .vs/
@@ -68,18 +34,13 @@ Build/
 *.xcworkspace
 .idea/
 
->>>>>>> 1d7ce6ce7a9b1c12265cbb79e62c71a8e54e8ea4
 # Ignore autosave and backup files
 *.autosave
 *_Backup*
 *.tmp
 *.bak
 
-<<<<<<< HEAD
-# Ignore crash reports and telemetry
-=======
 # Ignore telemetry or crash reports
->>>>>>> 1d7ce6ce7a9b1c12265cbb79e62c71a8e54e8ea4
 CrashReportClient/
 Telemetry/
 
@@ -87,18 +48,5 @@ Telemetry/
 ShaderCache/
 Saved/ShaderDebugInfo/
 
-<<<<<<< HEAD
-# Ignore generated files
-*.generated.*
-
-# Ignore Xcode files (if cross-platform or using Mac)
-*.xcodeproj
-*.xcworkspace
-
-# Ignore OS-specific
-.DS_Store
-Thumbs.db
-=======
 # Ignore Unreal-generated files
 *.generated.*
->>>>>>> 1d7ce6ce7a9b1c12265cbb79e62c71a8e54e8ea4
